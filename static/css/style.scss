@@ -35,7 +35,6 @@ div.center {
     padding-bottom: 62px;
 }
 
-
 // Buttons
 .btn {
     border-radius: 5px;
@@ -101,7 +100,7 @@ div.index {
     margin-top: 100px;
     height: 60vh;
     width: 60vw;
-    background: gray;
+    background: #8250e7;
 
     @media #{$media-small} {
         width: 100vw;
@@ -119,6 +118,6 @@ div.panel {
 
     .panel-map {
         height: calc(100vh - 62px);
-        background: gray;
+        background: #e9e9e9;
     }
 }

@@ -279,4 +279,6 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
+# Project
 settings.conf
+!static/lib
