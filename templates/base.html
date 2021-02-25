@@ -1,19 +1,33 @@
+{% load sass_tags %}
+{% load active %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>{% block no_title %}{% block title %}{% endblock %} | {% endblock %}trashOS</title>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+
+    <link href="{% sass_src 'css/style.scss' %}" rel="stylesheet" type="text/css"/>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-{% if request.user.is_authenticated %}
-    Добро пожаловать {{ request.user }}!
-    <a href="{% url 'logout' %}">Выйти</a>
-    {% if request.user.is_superuser %}
-        <a href="{% url 'admin:index' %}">Панель администратора</a>
+
+<nav>
+    <a class="{% active 'index' %}" href="{% url 'index' %}">Главная</a>
+    <a class="{% active 'info' %}" href="{% url 'info' %}">Информация</a>
+
+    {% if request.user.is_authenticated %}
+        <a class="{% active 'panel' %}" href="{% url 'panel' %}">Панель управления</a>
+        <a class="right last" href="{% url 'logout' %}">Выйти</a>
+        <a class="right">Аккаунт: {{ request.user }}</a>
+    {% else %}
+        <a class="right" href="{% url 'login' %}">Войти</a>
     {% endif %}
-{% else %}
-    <a href="{% url 'login' %}">Войти</a>
-{% endif %}
+</nav>
 {% block body %}{% endblock %}
 </body>
 </html>
