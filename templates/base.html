@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block no_title %}{% block title %}{% endblock %} | {% endblock %}trashOS</title>
+</head>
+<body>
+{% if request.user.is_authenticated %}
+    Добро пожаловать {{ request.user }}!
+    <a href="{% url 'logout' %}">Выйти</a>
+    {% if request.user.is_superuser %}
+        <a href="{% url 'admin:index' %}">Панель администратора</a>
+    {% endif %}
+{% else %}
+    <a href="{% url 'login' %}">Войти</a>
+{% endif %}
+{% block body %}{% endblock %}
+</body>
+</html>
