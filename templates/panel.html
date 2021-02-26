@@ -8,8 +8,25 @@
 
     <div class="panel">
         <div class="info">
-            <h3>Инфо</h3>
-            {% include 'snippets/progressbar.html' %}
+            <h3>Инфо о точке</h3>
+            <template v-if="selectedTrash()">
+                <p>Название/адрес: {( selectedTrash().address )}</p>
+                <p>Координаты: {( selectedTrash().x )}° {( selectedTrash().y )}°</p>
+                <p>Заполненость: {( selectedTrash().fullness * 100 )}%</p>
+
+                <div class="inline" v-if="selectedTrashDetails">
+                    <div v-for="fullness in selectedTrashDetails.detailFullness">
+                        <p>{(fullness.displayName )}</p>
+                        <div class="fullness-bar">
+                            <img src="{% static 'img/fullnessindicator.svg' %}" alt=""
+                                 :style="{ top: (1 - fullness.data) * 100 + '%' }">
+                            <p>{( Math.round(fullness.data * 100 ))}%</p>
+                        </div>
+                    </div>
+                </div>
+                <p v-else>Загрузка...</p>
+            </template>
+            <template v-else>Выберете пункт приёма мусора</template>
         </div>
         <div class="panel-map" id="map">
 

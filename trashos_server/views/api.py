@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.utils.timezone import now
 
 from django.http import JsonResponse, HttpResponse
@@ -24,3 +25,11 @@ def new_data(request):
         return HttpResponse("OK")
     except Trash.DoesNotExist:
         return HttpResponse("403")
+
+
+@login_required
+def get_details(request):
+    if (name := request.GET.get("name")) is not None:
+        trash = Trash.objects.get(display_address=name)
+        return JsonResponse({'detailFullness': [s.last_data.to_json() for s in trash.trashsensor_set.all() if s.last_data]})
+    return HttpResponse("403")

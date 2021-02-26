@@ -16,8 +16,11 @@ $(document).ready(function () {
         app = new Vue({
             el: el,
             data: {
-                trashes: {},
-                icons: []
+                trashes: [],
+                icons: [],
+                selectedTrashId: null,
+                selectedTrashDetails: null,
+                updateIntervalNumber: 0
             },
             watch: {
                 trashes: function (value) {
@@ -25,7 +28,26 @@ $(document).ready(function () {
                         this.icons[i]._data.trash = value[i]
                     }
                 }
-            }
+            },
+            methods: {
+                onSelect: function (trashId) {
+                    this.selectedTrashId = trashId
+
+                    clearInterval(this.updateIntervalNumber)
+
+                    function f() {
+                        $.getJSON('/api/trash/details?name=' + app.trashes[app.selectedTrashId].address, function (data) {
+                            app.selectedTrashDetails = data
+                        });
+                    }
+                    this.updateIntervalNumber = setInterval(f, 2000)
+                    f()
+                },
+                selectedTrash: function () {
+                    return this.trashes[this.selectedTrashId]
+                }
+            },
+            delimiters: ['{(', ')}']
         });
         DG.then(function () {
 
@@ -40,7 +62,7 @@ $(document).ready(function () {
                 for (let i in app.trashes) {
                     let IconClass = Vue.extend({
                         //template: `<div><img src="${src}/img/point.svg" alt=""><div class="fullness-panel">sd</div></div>`,
-                        template: `<div class="point">
+                        template: `<div class="point" @click="onSelect(i)">
                                         <img src="${src}/img/point.svg" alt="">
                                         <div class="fullness-panel">
                                             <img src="${src}/img/fullnessindicator.svg" alt="" v-bind:style="{ top: (1 - trash.fullness) * 100 + '%' }">
@@ -50,7 +72,13 @@ $(document).ready(function () {
                                     </div>`,
                         data: function () {
                             return {
-                                trash: app.trashes[i]
+                                trash: app.trashes[i],
+                                i: i
+                            }
+                        },
+                        methods: {
+                            onSelect: function (i) {
+                                app.onSelect(i)
                             }
                         }
                     })
@@ -63,7 +91,7 @@ $(document).ready(function () {
                         html: `<div id='trash-${i}'></div>`
                     });
 
-                    DG.marker([ app.trashes[i].x,  app.trashes[i].y], {
+                    DG.marker([app.trashes[i].x, app.trashes[i].y], {
                         icon: icon
                     }).addTo(map);
 

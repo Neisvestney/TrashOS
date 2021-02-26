@@ -4,7 +4,7 @@ from django.urls import path
 
 from trashos_server.views.index import index, info
 from trashos_server.views.panel import panel
-from trashos_server.views.api import get_trashes, new_data
+from trashos_server.views.api import get_trashes, new_data, get_details
 
 urlpatterns = [
     path('', index, name='index'),
@@ -14,6 +14,7 @@ urlpatterns = [
 
     path('api/trashes/', get_trashes, name='trashes'),
     path('api/trash/data/', new_data, name='new_data'),
+    path('api/trash/details/', get_details, name='get_details'),
 
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),

@@ -124,6 +124,33 @@ div.panel {
     }
 }
 
+div.inline {
+    display: flex;
+
+    & > * {
+        margin-right: 10px;
+    }
+}
+
+.fullness-bar {
+    height: 180px;
+    width: 102px;
+    overflow: hidden;
+    background: rgb(205, 205, 205);
+    border-radius: 10px;
+
+    img {
+        position: relative;
+    }
+
+    p {
+        position: relative;
+        color: white;
+        bottom: 50px;
+        left: 10px;
+    }
+}
+
 // Progress Bar
 .progress {
     .outer {
@@ -181,6 +208,7 @@ div.panel {
         width: 101px;
         height: 70px;
         background: rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(6px);
         border-radius: 5px;
         overflow: hidden;
 

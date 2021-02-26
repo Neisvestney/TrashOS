@@ -31,6 +31,12 @@ class TrashSensorData(models.Model):
     def __str__(self):
         return f"[{self.date.strftime('%d.%m.%Y %H:%M:%S UTC')}] {self.data * 100}% - {self.sensor.display_name} - {self.sensor.trash.display_address}"
 
+    def to_json(self):
+        return {
+            'displayName': self.sensor.display_name,
+            'data': self.data
+        }
+
 
 class TrashSensor(models.Model):
     trash = models.ForeignKey(Trash, on_delete=models.CASCADE)
