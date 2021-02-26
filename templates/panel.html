@@ -14,16 +14,20 @@
                 <p>Координаты: {( selectedTrash().x )}° {( selectedTrash().y )}°</p>
                 <p>Заполненость: {( selectedTrash().fullness * 100 )}%</p>
 
-                <div class="inline" v-if="selectedTrashDetails">
-                    <div v-for="fullness in selectedTrashDetails.detailFullness">
-                        <p>{(fullness.displayName )}</p>
-                        <div class="fullness-bar">
-                            <img src="{% static 'img/fullnessindicator.svg' %}" alt=""
-                                 :style="{ top: (1 - fullness.data) * 100 + '%' }">
-                            <p>{( Math.round(fullness.data * 100 ))}%</p>
+                <template v-if="selectedTrashDetails">
+                    <div class="inline">
+                        <div v-for="fullness in selectedTrashDetails.detailFullness">
+                            <p>{(fullness.displayName )}</p>
+                            <div class="fullness-bar">
+                                <img src="{% static 'img/fullnessindicator.svg' %}" alt=""
+                                     :style="{ top: (1 - fullness.data) * 100 + '%' }">
+                                <p>{( Math.round(fullness.data * 100 ))}%</p>
+                            </div>
                         </div>
+
                     </div>
-                </div>
+                    <canvas id="chart"></canvas>
+                </template>
                 <p v-else>Загрузка...</p>
             </template>
             <template v-else>Выберете пункт приёма мусора</template>

@@ -35,13 +35,16 @@ $(document).ready(function () {
 
                     clearInterval(this.updateIntervalNumber)
 
-                    function f() {
+                    $.getJSON('/api/trash/details?name=' + app.trashes[app.selectedTrashId].address, function (data) {
+                        app.selectedTrashDetails = data;
+                        setTimeout(buildGraph, 100);
+                    });
+
+                    this.updateIntervalNumber = setInterval(function () {
                         $.getJSON('/api/trash/details?name=' + app.trashes[app.selectedTrashId].address, function (data) {
                             app.selectedTrashDetails = data
                         });
-                    }
-                    this.updateIntervalNumber = setInterval(f, 2000)
-                    f()
+                    }, 2000)
                 },
                 selectedTrash: function () {
                     return this.trashes[this.selectedTrashId]
@@ -110,3 +113,28 @@ $(document).ready(function () {
         });
     }
 })
+
+function buildGraph() {
+    var ctx = document.getElementById('chart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг'],
+            datasets: [{
+                label: 'Статистика',
+                data: [15, 40, 60, 90, 20],
+                borderWidth: 0
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                        max: 100
+                    }
+                }],
+            }
+        }
+    });
+}
