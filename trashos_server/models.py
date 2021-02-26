@@ -1,10 +1,12 @@
 from django.db import models
+from django.utils import timezone
 
 
 class Trash(models.Model):
     x = models.FloatField("Координата X")
     y = models.FloatField("Координата Y")
     display_address = models.CharField("Отображаемый адрес", max_length=100)
+    key = models.CharField("Ключ", max_length=16, unique=True)
 
     def __str__(self):
         return self.display_address
@@ -27,7 +29,7 @@ class TrashSensorData(models.Model):
     data = models.FloatField("Заполненость")
 
     def __str__(self):
-        return f"[{self.date}] {self.data * 100}% - {self.sensor.display_name} - {self.sensor.trash.display_address}"
+        return f"[{self.date.strftime('%d.%m.%Y %H:%M:%S UTC')}] {self.data * 100}% - {self.sensor.display_name} - {self.sensor.trash.display_address}"
 
 
 class TrashSensor(models.Model):
