@@ -1,6 +1,7 @@
 from django.utils.timezone import now
 
 from django.http import JsonResponse, HttpResponse
+from django.views.decorators.csrf import csrf_exempt
 
 from trashos_server.models import Trash, TrashSensorData
 
@@ -11,6 +12,7 @@ def get_trashes(request):
     })
 
 
+@csrf_exempt
 def new_data(request):
     try:
         trash = Trash.objects.get(key=request.GET.get('key'))

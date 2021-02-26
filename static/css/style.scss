@@ -188,9 +188,15 @@ div.panel {
             position: relative;
         }
 
-        p {
+        p.title {
             position: relative;
             bottom: 190px;
+            left: 10px;
+            color: white;
+        }
+        p.percent {
+            position: relative;
+            bottom: 180px;
             left: 10px;
             color: white;
         }
